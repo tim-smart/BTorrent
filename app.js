@@ -128,18 +128,16 @@ app.controller("BTorrentCtrl", [
           name =
             prompt("Please name your torrent", "My Awesome Torrent") ||
             "My Awesome Torrent";
-          torrentOpts.name = name;
         }
         $rootScope.client.processing = true;
-        $rootScope.client.seed(files, torrentOpts, $rootScope.onSeed);
-        delete torrentOpts.name;
+        $rootScope.client.seed(files, $rootScope.onSeed);
       }
     };
     $rootScope.openTorrentFile = function (file) {
       if (file != null) {
         dbg(`Adding torrent file ${file.name}`);
         $rootScope.client.processing = true;
-        $rootScope.client.add(file, torrentOpts, $rootScope.onTorrent);
+        $rootScope.client.add(file, $rootScope.onTorrent);
       }
     };
     $rootScope.client.on("error", function (err, torrent) {
@@ -151,11 +149,7 @@ app.controller("BTorrentCtrl", [
       if (magnet != null && magnet.length > 0) {
         dbg(`Adding magnet/hash ${magnet}`);
         $rootScope.client.processing = true;
-        $rootScope.client.add(
-          magnet,
-          torrentOpts,
-          onTorrent || $rootScope.onTorrent,
-        );
+        $rootScope.client.add(magnet, onTorrent || $rootScope.onTorrent);
       }
     };
     $rootScope.destroyedTorrent = function (err) {
